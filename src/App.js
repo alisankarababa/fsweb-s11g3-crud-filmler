@@ -9,6 +9,7 @@ import MovieHeader from './components/MovieHeader';
 import FavoriteMovieList from './components/FavoriteMovieList';
 
 import axios from 'axios';
+import EditMovieForm from "./components/EditMovieForm";
 
 const App = (props) => {
   const [movies, setMovies] = useState([]);
@@ -31,6 +32,7 @@ const App = (props) => {
 
   }
 
+
   return (
     <div>
       <nav className="bg-zinc-800 px-6 py-3">
@@ -44,6 +46,7 @@ const App = (props) => {
 
           <Switch>
             <Route path="/movies/edit/:id">
+                <EditMovieForm setMovies={setMovies}/>
             </Route>
 
             <Route path="/movies/:id">
