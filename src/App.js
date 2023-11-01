@@ -8,23 +8,33 @@ import MovieHeader from './components/MovieHeader';
 
 import FavoriteMovieList from './components/FavoriteMovieList';
 
-import axios from 'axios';
 import EditMovieForm from "./components/EditMovieForm";
 import AddMovieForm from "./components/AddMovieForm"
+import { useAxios } from "./hooks/useAxios";
+import { useAxiosMethods } from "./hooks/useAxios";
 
 const App = (props) => {
   const [movies, setMovies] = useState([]);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
+  const { sendAxiosRequest: getMovies, response: responseMovies } = useAxios(
+		"http://localhost:9000/api",
+		useAxiosMethods.GET,
+		"/movies"
+	);
 
   useEffect(() => {
-    axios.get('http://localhost:9000/api/movies')
-      .then(res => {
-        setMovies(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    
+    getMovies();
+
   }, []);
+
+    useEffect(() => {
+
+        if(responseMovies.data)
+            setMovies( responseMovies.data );
+    }, [responseMovies]);
+
+
 
 
   const deleteFromFavorites = (movieId) => {
